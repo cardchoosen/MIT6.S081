@@ -106,5 +106,5 @@ struct proc {
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
 
-  int mask;
+  uint64 syscall_trace;        // Mask syscall trace
 };
