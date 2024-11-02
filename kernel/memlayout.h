@@ -1,5 +1,4 @@
 // Physical memory layout
-
 // qemu -machine virt is set up like this,
 // based on qemu's hw/riscv/virt.c:
 //
@@ -72,7 +71,6 @@
 #define TRAPFRAME (TRAMPOLINE - PGSIZE)
 #ifdef LAB_PGTBL
 #define USYSCALL (TRAPFRAME - PGSIZE)
-
 struct usyscall {
   int pid;  // Process ID
 };
