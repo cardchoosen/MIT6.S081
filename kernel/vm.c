@@ -483,10 +483,32 @@ void vmprintwalk(uint64 paths[2][3], pagetable_t root, int cnt)
   }
 }
 
+int pgtblprint(pagetable_t pagetable, int depth) {
+  // there are 2^9 = 512 PTEs in a page table.
+  for(int i = 0; i < 512; i++){
+    pte_t pte = pagetable[i];
+    if(pte & PTE_V) { // 如果页表项有效
+      // 按格式打印页表项
+      printf("..");
+      for(int j=0;j<depth;j++) {
+        printf(" ..");
+      }
+      printf("%d: pte %p pa %p\n", i, pte, PTE2PA(pte));
+
+      // 如果该节点不是叶节点，递归打印其子节点。
+      if((pte & (PTE_R|PTE_W|PTE_X)) == 0){
+        // this PTE points to a lower-level page table.
+        uint64 child = PTE2PA(pte);
+        pgtblprint((pagetable_t)child,depth+1);
+      }
+    }
+  }
+  return 0;
+}
+
 // 打印页表
 void vmprint(pagetable_t root)
 {
-  uint64 paths[2][3];
   printf("page table %p\n", root);
-  vmprintwalk(paths, root, 0);
+  pgtblprint(root, 0);
 }
