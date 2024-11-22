@@ -1,0 +1,30 @@
+1.  Which registers contain arguments to functions? For example, which register holds 13 in main's call to printf?
+2.  Where is the call to function f in the assembly code for main? Where is the call to g? (Hint: the compiler may inline functions.)
+3.  At what address is the function printf located?
+4.  What value is in the register ra just after the jalr to printf in main?
+5.  Run the following code.
+        unsigned int i = 0x00646c72;
+        printf("H%x Wo%s", 57616, &i);
+What is the output? Here's an ASCII table that maps bytes to characters.
+The output depends on that fact that the RISC-V is little-endian. If the RISC-V were instead big-endian what would you set i to in order to yield the same output? Would you need to change 57616 to a different value?
+Here's a description of little- and big-endian and a more whimsical description.
+6.  In the following code, what is going to be printed after 'y='? (note: the answer is not a specific value.) Why does this happen?
+        printf("x=%d y=%d", 3);
+翻译版本如下：
+1. 哪些寄存器包含函数的参数？例如，在 main 函数调用 printf 时，哪个寄存器保存着 13？
+回答：a0-a7, a2
+2. 在主函数（main）的汇编代码中，函数 f 和 g 的调用位置在哪里？（提示：编译器可能会内联函数。）。
+回答: 没有代码的位置，被一层一层内联到main里了
+3. 函数 printf 位于什么地址？
+回答：0x0000000000000628
+4. 在main函数中jalr跳转到printf后的ra寄存器中的值是什么？
+回答：0x0000000000000038，即jalr的下一条指令地址
+5. 运行以下代码。输出是什么？
+unsigned int i = 0x00646c72；
+printf("H%x Wo%s", 57616, &i);
+这里有一个 ASCII 表，它将字节映射到字符。输出取决于 RISC-V 是小端序这一事实。如果 RISC-V 是大端序，为了得到相同的输出，你会将i设置为什么值？你需要将57616更改为不同的值吗？
+这里有小端序和大端序的描述以及一个更奇特的描述。
+回答：输出"He110 World"，不需要更改，十六进制和内存中的表示不是同一个概念
+6. 在下面的代码中，'y='后面会打印什么？（注意：答案不是一个特定的值。）为什么会这样？
+printf("x=%d y=%d", 3);  
+回答：会打印随机值，取决于寄存器a2的内容
