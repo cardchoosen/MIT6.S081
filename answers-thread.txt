@@ -1,0 +1,7 @@
+thread 1和thread 2同时往一个bucket设置键k1、k2
+thread 1: 发现k1不存在，继续执行
+-- schedule --
+thread 2: 发现k2不存在，继续执行
+thread 2: 分配entry，在bucket末尾插入k2
+-- schedule --
+thread 1: 分配entry，在bucket末尾插入k1(覆盖了k2)
